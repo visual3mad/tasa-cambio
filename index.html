@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TASA CONVERSIÓN CUBA</title>
+    <title>CONVERSIÓN DIVISAS CUBA</title>
     
     <!-- Google Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -52,16 +52,17 @@
             right: 20px;
             cursor: pointer;
             padding: 10px;
+            z-index: 100;
         }
-        .theme-toggle svg { width: 24px; height: 24px; fill: var(--text); }
+        .theme-toggle svg { width: 22px; height: 22px; fill: var(--text); transition: transform 0.5s ease; }
 
-        header { text-align: center; margin-bottom: 40px; }
-        h1 { font-weight: 800; font-size: 20px; letter-spacing: 1.5px; }
-        .date { font-size: 10px; color: var(--muted); margin-top: 10px; font-weight: 600; text-transform: uppercase; }
+        header { text-align: center; margin-bottom: 45px; }
+        h1 { font-weight: 800; font-size: 18px; letter-spacing: 1.5px; line-height: 1.2; }
+        .date { font-size: 9px; color: var(--muted); margin-top: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .main-card {
             background: var(--card);
-            padding: 40px 30px;
+            padding: 45px 30px;
             box-shadow: var(--shadow);
             margin-bottom: 50px;
         }
@@ -80,7 +81,7 @@
             margin-bottom: 35px;
         }
 
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; }
         
         .select-wrapper { border-bottom: 1px solid var(--line); position: relative; }
         
@@ -101,8 +102,8 @@
             background-size: 12px;
         }
 
-        .result-box { margin-top: 50px; text-align: center; }
-        .result-val { font-size: 52px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+        .result-box { margin-top: 55px; text-align: center; }
+        .result-val { font-size: 56px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
         .result-unit { font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 25px; letter-spacing: 1px; }
 
         /* Rates Table */
@@ -114,13 +115,13 @@
             margin-bottom: 15px;
             padding-top: 25px;
             border-bottom: 1px solid var(--line);
-            padding-bottom: 8px;
+            padding-bottom: 10px;
         }
 
         .rate-row { 
             display: flex; 
             justify-content: space-between; 
-            padding: 14px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--line);
         }
         .rate-row:last-child { border-bottom: none; }
@@ -140,7 +141,7 @@
 
 <div class="app">
     <header>
-        <h1>TASA CONVERSIÓN CUBA</h1>
+        <h1>CONVERSIÓN DIVISAS CUBA</h1>
         <div id="fecha" class="date">SINCRONIZANDO...</div>
     </header>
 
@@ -152,8 +153,8 @@
             <div class="select-wrapper">
                 <label class="label">MONEDA</label>
                 <select id="moneda" onchange="calcular()">
+                    <option value="usd" selected>USD</option>
                     <option value="eur">EUR</option>
-                    <option value="usd">USD</option>
                 </select>
             </div>
             <div class="select-wrapper">
@@ -219,10 +220,10 @@
         try {
             const res = await fetch('cambio.json');
             tasas = await res.json();
-            localStorage.setItem('tasas_vfinal_fix', JSON.stringify(tasas));
+            localStorage.setItem('tasas_vfinal_usd', JSON.stringify(tasas));
             actualizarUI();
         } catch (e) {
-            tasas = JSON.parse(localStorage.getItem('tasas_vfinal_fix'));
+            tasas = JSON.parse(localStorage.getItem('tasas_vfinal_usd'));
             if(tasas) actualizarUI();
         }
     }
