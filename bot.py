@@ -1,23 +1,33 @@
 import requests
+from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 
 def obtener_datos():
-    # Nota: Aquí pondrías la lógica de scraping. 
-    # Para el ejemplo, usaremos datos fijos o una búsqueda simple.
-    # El Toque a veces requiere headers para no bloquearte.
-    
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    
-    # Ejemplo: Supongamos que sacamos los datos de una API o scraping
-    # Por ahora, simulamos el resultado:
-    datos = {
-        "fecha": datetime.now().strftime("%Y-%m-%d %I:%M %p"),
-        "usd": 325, # Aquí iría la lógica de extracción real
-        "eur": 335,
-        "cup": 1
+    url = "https://eltoque.com/"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    return datos
+    
+    try:
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Esta parte busca los valores en la web de El Toque
+        # Nota: Si ellos cambian el diseño de la web, esto habría que ajustarlo
+        tasas = soup.find_all('span', class_='price') # Ejemplo genérico
+        
+        # Para que no te de error ahora, vamos a poner valores de prueba 
+        # Pero que el script genere el archivo JSON correctamente
+        datos = {
+            "fecha": datetime.now().strftime("%d/%m/%Y %I:%M %p"),
+            "usd": "325", # Aquí podrías extraer el dato real
+            "eur": "335",
+            "mlc": "270"
+        }
+        return datos
+    except Exception as e:
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     resultado = obtener_datos()
