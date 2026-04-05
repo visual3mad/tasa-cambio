@@ -3,167 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tasa Conversion monedas Cuba</title>
+    <title>TASA CONVERSIÓN CUBA</title>
     
     <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #f9f9f9;
-            --card-bg: #ffffff;
-            --text-main: #1a1a1a;
-            --text-muted: #737373;
-            --line: #e5e5e5;
-            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --text: #171717;
+            --muted: #737373;
+            --border: #eeeeee;
+            --shadow: 0 10px 40px rgba(0,0,0,0.06);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #121212;
-                --card-bg: #1e1e1e;
-                --text-main: #f5f5f5;
-                --text-muted: #a3a3a3;
-                --line: #333333;
-                --shadow: 0 10px 30px rgba(0,0,0,0.3);
+                --bg: #0a0a0a;
+                --card: #141414;
+                --text: #ededed;
+                --muted: #a1a1a1;
+                --border: #262626;
+                --shadow: 0 10px 40px rgba(0,0,0,0.4);
             }
         }
 
-        * { 
-            box-sizing: border-box; 
-            border-radius: 0 !important; /* Bordes rectos */
-            margin: 0; 
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; border-radius: 0 !important; margin: 0; padding: 0; border: none; }
 
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg); 
-            color: var(--text-main);
+            color: var(--text);
             display: flex;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
         }
 
-        .container { width: 100%; max-width: 400px; }
+        .app { width: 100%; max-width: 380px; }
 
-        header { margin-bottom: 40px; text-align: left; }
-        h1 { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; line-height: 1.2; text-transform: none; }
-        .date { font-size: 11px; color: var(--text-muted); margin-top: 8px; font-weight: 400; }
+        h1 { font-weight: 800; font-size: 14px; letter-spacing: 2px; text-align: center; margin-bottom: 30px; opacity: 0.8; }
 
-        .app-card {
-            background: var(--card-bg);
+        .main-card {
+            background: var(--card);
             padding: 30px;
             box-shadow: var(--shadow);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        label { display: block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
+        .input-group { margin-bottom: 30px; }
+        .label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; display: block; }
 
-        input, select { 
+        input { 
+            width: 100%; 
+            padding: 10px 0; 
+            background: transparent;
+            border-bottom: 1px solid var(--border); 
+            color: var(--text);
+            font-size: 28px; 
+            font-weight: 400;
+            outline: none;
+        }
+
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        
+        .select-wrapper { border-bottom: 1px solid var(--border); position: relative; display: flex; align-items: center; }
+        .icon { width: 14px; height: 14px; fill: var(--muted); margin-right: 8px; }
+        
+        select { 
             width: 100%; 
             padding: 12px 0; 
             background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--line); 
-            color: var(--text-main);
-            font-size: 18px; 
-            font-weight: 400;
+            color: var(--text);
+            font-size: 14px; 
+            font-weight: 600;
             outline: none;
-            margin-bottom: 25px;
-            border-radius: 0;
+            cursor: pointer;
+            -webkit-appearance: none;
         }
 
-        .result-section { margin-top: 10px; }
-        .result-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
-        .result-val { font-size: 42px; font-weight: 800; color: var(--text-main); letter-spacing: -1px; }
+        .result-box { margin-top: 35px; text-align: center; }
+        .result-val { font-size: 48px; font-weight: 800; letter-spacing: -2px; }
+        .result-unit { font-size: 12px; font-weight: 600; color: var(--muted); margin-top: -5px; }
 
-        /* Rates Table Style */
-        .rates-container { margin-top: 20px; }
-        .section-title { 
-            font-size: 11px; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--line);
-            padding-bottom: 8px;
+        /* Rates Display Area */
+        .rates-display { padding: 0 10px; }
+        .section-header { 
+            display: flex; 
+            align-items: center; 
+            font-size: 10px; 
+            font-weight: 800; 
+            letter-spacing: 1px; 
+            color: var(--muted); 
             margin-bottom: 15px;
-            margin-top: 30px;
+            padding-top: 20px;
         }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 15px; }
 
         .rate-row { 
             display: flex; 
             justify-content: space-between; 
+            align-items: center;
             padding: 12px 0;
-            border-bottom: 1px solid var(--line);
         }
-        .rate-row:last-child { border-bottom: none; }
-        
-        .currency-name { font-size: 14px; font-weight: 400; color: var(--text-muted); }
-        .currency-value { font-size: 16px; font-weight: 600; color: var(--text-main); }
 
-        select { cursor: pointer; }
+        .rate-info { display: flex; align-items: center; font-size: 13px; font-weight: 400; color: var(--muted); }
+        .rate-val { font-size: 15px; font-weight: 700; color: var(--text); }
+
+        .footer-date { text-align: center; font-size: 9px; color: var(--muted); margin-top: 40px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>Tasa Conversion monedas Cuba</h1>
-        <div id="fecha" class="date">Sincronizando...</div>
-    </header>
+<div class="app">
+    <h1>TASA CONVERSIÓN CUBA</h1>
 
-    <div class="app-card">
-        <label>Cantidad a convertir</label>
-        <input type="number" id="cantidad" placeholder="0.00" oninput="calcular()">
+    <div class="main-card">
+        <div class="input-group">
+            <span class="label">CANTIDAD</span>
+            <input type="number" id="cantidad" placeholder="0" oninput="calcular()">
+        </div>
 
-        <div style="display: flex; gap: 30px;">
-            <div style="flex: 1;">
-                <label>Moneda</label>
+        <div class="controls">
+            <div class="select-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.97 0-1.82 1.28-3.26 3.11-3.69V3.5h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.61-2.4 1.61 0 .93.61 1.5 2.7 2 2.54.67 4.15 1.82 4.15 4.15-.01 2.11-1.5 3.22-3.41 3.66z"/></svg>
                 <select id="moneda" onchange="calcular()">
                     <option value="eur">EUR</option>
                     <option value="usd">USD</option>
                 </select>
             </div>
-            <div style="flex: 1;">
-                <label>Tasa</label>
+            <div class="select-wrapper">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
                 <select id="mercado" onchange="calcular()">
-                    <option value="oficial">OFICIAL</option>
-                    <option value="informal">INFORMAL</option>
+                    <option value="oficial">OFIC.</option>
+                    <option value="informal">INF.</option>
                 </select>
             </div>
         </div>
 
-        <div class="result-section">
-            <div class="result-label">Total en CUP</div>
+        <div class="result-box">
             <div id="resultado" class="result-val">0.00</div>
+            <div class="result-unit">PESOS CUBANOS (CUP)</div>
         </div>
     </div>
 
-    <!-- DATOS DEBAJO -->
-    <div class="rates-container">
-        <div class="section-title">OFICIAL</div>
+    <div class="rates-display">
+        <div class="section-header">OFICIAL</div>
         <div class="rate-row">
-            <span class="currency-name">Dólar (USD)</span>
-            <span id="val-usd-ofic" class="currency-value">0.00</span>
+            <div class="rate-info">USD</div>
+            <div id="val-usd-ofic" class="rate-val">--</div>
         </div>
-        <div class="rate-row">
-            <span class="currency-name">Euro (EUR)</span>
-            <span id="val-eur-ofic" class="currency-value">0.00</span>
+        <div class="rate-row" style="margin-top:-10px">
+            <div class="rate-info">EUR</div>
+            <div id="val-eur-ofic" class="rate-val">--</div>
         </div>
 
-        <div class="section-title">INFORMAL</div>
+        <div class="section-header">INFORMAL</div>
         <div class="rate-row">
-            <span class="currency-name">Dólar (USD)</span>
-            <span id="val-usd-inf" class="currency-value">0.00</span>
+            <div class="rate-info">USD</div>
+            <div id="val-usd-inf" class="rate-val">--</div>
         </div>
-        <div class="rate-row">
-            <span class="currency-name">Euro (EUR)</span>
-            <span id="val-eur-inf" class="currency-value">0.00</span>
+        <div class="rate-row" style="margin-top:-10px">
+            <div class="rate-info">EUR</div>
+            <div id="val-eur-inf" class="rate-val">--</div>
         </div>
     </div>
+
+    <div id="fecha" class="footer-date">Sincronizando datos...</div>
 </div>
 
 <script>
@@ -173,10 +179,10 @@
         try {
             const res = await fetch('cambio.json');
             tasas = await res.json();
-            localStorage.setItem('tasas_v3', JSON.stringify(tasas));
+            localStorage.setItem('tasas_v4', JSON.stringify(tasas));
             actualizarUI();
         } catch (e) {
-            tasas = JSON.parse(localStorage.getItem('tasas_v3'));
+            tasas = JSON.parse(localStorage.getItem('tasas_v4'));
             if(tasas) actualizarUI();
         }
     }
