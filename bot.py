@@ -3,49 +3,54 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 
-def obtener_datos():
+def obtener_precios():
+    # 1. Configuración inicial y valores de respaldo (BCC oficial)
+    datos = {
+        "fecha": datetime.now().strftime("%d/%m/%Y %I:%M %p"),
+        "oficial": {
+            "usd": "480.00",
+            "eur": "554.16",
+            "fuente": "Banco Central (Manual/BCC)"
+        },
+        "informal": {
+            "usd": "325",
+            "eur": "335",
+            "fuente": "El Toque"
+        }
+    }
+
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    
-    # Valores por defecto por si falla la conexión a alguna web
-    resultados = {
-        "fecha": datetime.now().strftime("%d/%m/%Y %I:%M %p"),
-        "oficial": {"usd": "480.00", "eur": "554.16"},
-        "informal": {"usd": "325", "eur": "340"}
-    }
 
-    # --- 1. INTENTAR OBTENER INFORMAL (EL TOQUE) ---
+    # 2. Intentar obtener el Informal de El Toque (que cambia mucho)
     try:
         url_it = "https://eltoque.com/"
-        res_it = requests.get(url_it, headers=headers, timeout=10)
-        soup_it = BeautifulSoup(res_it.text, 'html.parser')
-        
-        # Buscamos los valores en la tabla de tasas de El Toque
-        # Nota: Usamos selectores comunes para capturar los precios
-        precios = soup_it.select('.price-text')
-        if len(precios) >= 2:
-            resultados["informal"]["usd"] = precios[0].text.strip()
-            resultados["informal"]["eur"] = precios[1].text.strip()
-    except:
-        pass # Si falla, mantiene los valores por defecto
+        response = requests.get(url_it, headers=headers, timeout=15)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            # El Toque pone los precios en clases llamadas 'price-text' o similares
+            # Buscamos los valores numéricos
+            elementos = soup.find_all('span', class_='price-text')
+            if len(elementos) >= 2:
+                datos["informal"]["usd"] = elementos[0].text.strip()
+                datos["informal"]["eur"] = elementos[1].text.strip()
+    except Exception as e:
+        print(f"Error leyendo El Toque: {e}")
 
-    # --- 2. INTENTAR OBTENER OFICIAL (BCC) ---
+    # 3. Intentar obtener el Oficial del BCC (si la red lo permite)
     try:
         url_bcc = "https://www.bcc.gob.cu/"
         res_bcc = requests.get(url_bcc, headers=headers, timeout=10)
-        # El BCC a veces bloquea scrapers, si falla usamos los valores que ya conocemos
-        # que suelen ser estables por periodos largos (480.00 / 554.16)
-        if res_bcc.status_code == 200:
-             # Aquí se podría añadir lógica de búsqueda específica si el BCC cambia
-             pass
+        # Si el BCC responde, aquí podrías añadir lógica para extraer el 480
+        # Pero como el BCC es muy inestable desde fuera, el respaldo 480 ya cumple su función.
     except:
-        pass
+        print("BCC no disponible desde el servidor externo, usando valores de respaldo.")
 
-    return resultados
+    return datos
 
 if __name__ == "__main__":
-    datos = obtener_datos()
+    resultado = obtener_precios()
     with open("cambio.json", "w") as f:
-        json.dump(datos, f, indent=4)
-    print("Archivo cambio.json actualizado con éxito")
+        json.dump(resultado, f, indent=4)
+    print("Proceso finalizado con éxito.")
