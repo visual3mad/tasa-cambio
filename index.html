@@ -2,78 +2,203 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasa de Conversion Cuba</title>
-    <!-- Estilos para que parezca una App nativa -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tasa Conversion monedas Cuba</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 20px; shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; margin-bottom: 5px; }
-        .date { text-align: center; color: #888; font-size: 12px; margin-bottom: 20px; }
-        label { display: block; margin: 10px 0 5px; font-weight: bold; color: #555; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        .result-box { background: #e7f3ff; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: center; }
-        .result-val { font-size: 24px; font-weight: bold; color: #007aff; }
-        .footer { text-align: center; margin-top: 15px; font-size: 10px; color: #aaa; }
+        :root {
+            /* Colores Light Mode */
+            --bg-body: #f0f4f8;
+            --bg-card: #ffffff;
+            --text-main: #1a365d;
+            --text-secondary: #64748b;
+            --accent-blue: #007aff;
+            --accent-light: #e7f3ff;
+            --input-border: #cbd5e1;
+            --shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* Colores Dark Mode */
+                --bg-body: #0f172a;
+                --bg-card: #1e293b;
+                --text-main: #f1f5f9;
+                --text-secondary: #94a3b8;
+                --accent-blue: #3b82f6;
+                --accent-light: #1e3a8a;
+                --input-border: #334155;
+                --shadow: 0 10px 25px rgba(0,0,0,0.3);
+            }
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container { width: 100%; max-width: 420px; }
+
+        .card { 
+            background: var(--bg-card); 
+            padding: 30px; 
+            border-radius: 24px; 
+            box-shadow: var(--shadow);
+        }
+
+        h1 { font-weight: 700; font-size: 22px; margin: 0 0 5px; text-align: center; }
+        .date { text-align: center; color: var(--text-secondary); font-size: 11px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+
+        label { display: block; margin: 15px 0 8px; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+        input, select { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--bg-body);
+            border: 1px solid var(--input-border); 
+            border-radius: 12px; 
+            color: var(--text-main);
+            font-size: 16px; 
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input:focus { border-color: var(--accent-blue); ring: 2px var(--accent-blue); }
+
+        .result-container { 
+            background: var(--accent-light); 
+            padding: 20px; 
+            border-radius: 16px; 
+            margin-top: 25px; 
+            text-align: center; 
+        }
+        .result-label { font-size: 12px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        .result-val { font-size: 32px; font-weight: 700; color: var(--accent-blue); }
+
+        /* Sección de Tasas Actuales debajo */
+        .rates-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-top: 30px; 
+        }
+        .rate-item { 
+            background: var(--bg-card); 
+            padding: 15px; 
+            border-radius: 16px; 
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .rate-title { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 5px; }
+        .rate-price { font-size: 16px; font-weight: 700; }
+        .market-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; background: var(--bg-body); margin-top: 5px; display: inline-block; }
+
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Calculadora Cuba </h2>
-    <div id="fecha" class="date">Cargando tasas...</div>
+<div class="container">
+    <div class="card">
+        <h1>Tasa Conversion monedas Cuba</h1>
+        <div id="fecha" class="date">Sincronizando...</div>
 
-    <label>Cantidad a cambiar:</label>
-    <input type="number" id="cantidad" placeholder="Ej: 100" oninput="calcular()">
+        <label>Cantidad a convertir</label>
+        <input type="number" id="cantidad" placeholder="0.00" oninput="calcular()">
 
-    <label>Moneda:</label>
-    <select id="moneda" onchange="calcular()">
-        <option value="eur">Euros (€)</option>
-        <option value="usd">Dólares ($)</option>
-    </select>
+        <div style="display: flex; gap: 10px;">
+            <div style="flex: 1;">
+                <label>Moneda</label>
+                <select id="moneda" onchange="calcular()">
+                    <option value="eur">Euros (€)</option>
+                    <option value="usd">Dólares ($)</option>
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <label>Mercado</label>
+                <select id="mercado" onchange="calcular()">
+                    <option value="informal">Calle (Informal)</option>
+                    <option value="oficial">Banco (Oficial)</option>
+                </select>
+            </div>
+        </div>
 
-    <label>Mercado:</label>
-    <select id="mercado" onchange="calcular()">
-        <option value="informal">Calle (Informal)</option>
-        <option value="oficial">Banco (Oficial)</option>
-    </select>
-
-    <div class="result-box">
-        <div style="font-size: 14px; color: #666;">Recibirás aproximadamente:</div>
-        <div id="resultado" class="result-val">0.00 CUP</div>
+        <div class="result-container">
+            <div class="result-label">Resultado en CUP</div>
+            <div id="resultado" class="result-val">0.00</div>
+        </div>
     </div>
 
-    <div class="footer">Datos sincronizados desde tu GitHub personal.</div>
+    <!-- Valores Actuales debajo -->
+    <div class="rates-grid">
+        <div class="rate-item">
+            <div class="rate-title">Dólar (USD)</div>
+            <div id="val-usd-inf" class="rate-price">--</div>
+            <div class="market-tag">Calle</div>
+        </div>
+        <div class="rate-item">
+            <div class="rate-title">Euro (EUR)</div>
+            <div id="val-eur-inf" class="rate-price">--</div>
+            <div class="market-tag">Calle</div>
+        </div>
+        <div class="rate-item">
+            <div class="rate-title">Dólar (USD)</div>
+            <div id="val-usd-ofic" class="rate-price">--</div>
+            <div class="market-tag">Banco</div>
+        </div>
+        <div class="rate-item">
+            <div class="rate-title">Euro (EUR)</div>
+            <div id="val-eur-ofic" class="rate-price">--</div>
+            <div class="market-tag">Banco</div>
+        </div>
+    </div>
 </div>
 
 <script>
     let tasas = {};
 
-    // 1. Cargar los datos de tu propio JSON
     async function cargarTasas() {
         try {
             const res = await fetch('cambio.json');
             tasas = await res.json();
-            document.getElementById('fecha').innerText = "Actualizado: " + tasas.fecha;
-            // Guardar en el móvil para uso OFFLINE
-            localStorage.setItem('tasas_cuba', JSON.stringify(tasas));
+            localStorage.setItem('tasas_cache', JSON.stringify(tasas));
+            actualizarUI();
         } catch (e) {
-            // Si no hay internet, usar los últimos guardados
-            tasas = JSON.parse(localStorage.getItem('tasas_cuba'));
-            if(tasas) document.getElementById('fecha').innerText = "Modo Offline - Tasas: " + tasas.fecha;
+            tasas = JSON.parse(localStorage.getItem('tasas_cache'));
+            if(tasas) actualizarUI();
         }
     }
 
-    // 2. Lógica de la calculadora
+    function actualizarUI() {
+        document.getElementById('fecha').innerText = tasas.fecha;
+        
+        // Llenar cuadritos de abajo
+        document.getElementById('val-usd-inf').innerText = tasas.informal.usd + " CUP";
+        document.getElementById('val-eur-inf').innerText = tasas.informal.eur + " CUP";
+        document.getElementById('val-usd-ofic').innerText = tasas.oficial.usd + " CUP";
+        document.getElementById('val-eur-ofic').innerText = tasas.oficial.eur + " CUP";
+        
+        calcular();
+    }
+
     function calcular() {
-        const cant = document.getElementById('cantidad').value;
+        const cant = document.getElementById('cantidad').value || 0;
         const mon = document.getElementById('moneda').value;
         const merc = document.getElementById('mercado').value;
 
         if (tasas && tasas[merc]) {
-            const tasaCero = tasas[merc][mon];
-            const total = (cant * tasaCero).toLocaleString('es-ES', {minimumFractionDigits: 2});
-            document.getElementById('resultado').innerText = total + " CUP";
+            const valorTasa = parseFloat(tasas[merc][mon].replace(',', ''));
+            const total = (parseFloat(cant) * valorTasa);
+            document.getElementById('resultado').innerText = total.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
     }
 
