@@ -3,162 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tasa Conversion monedas Cuba</title>
+    <title>CAMBIO CUBA</title>
     
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Inter (Elegante y minimalista) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Colores Light Mode */
-            --bg-body: #f0f4f8;
-            --bg-card: #ffffff;
-            --text-main: #1a365d;
-            --text-secondary: #64748b;
-            --accent-blue: #007aff;
-            --accent-light: #e7f3ff;
-            --input-border: #cbd5e1;
-            --shadow: 0 10px 25px rgba(0,0,0,0.05);
+            /* Palette: Deep Blue & Light Blue */
+            --bg: #ffffff;
+            --surface: #f8fafc;
+            --primary: #003366; /* Azul Oscuro */
+            --secondary: #0070f3; /* Azul Claro */
+            --text: #000000;
+            --border: #000000;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                /* Colores Dark Mode */
-                --bg-body: #0f172a;
-                --bg-card: #1e293b;
-                --text-main: #f1f5f9;
-                --text-secondary: #94a3b8;
-                --accent-blue: #3b82f6;
-                --accent-light: #1e3a8a;
-                --input-border: #334155;
-                --shadow: 0 10px 25px rgba(0,0,0,0.3);
+                --bg: #000000;
+                --surface: #0a192f;
+                --primary: #3399ff;
+                --secondary: #66b2ff;
+                --text: #ffffff;
+                --border: #ffffff;
             }
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { 
+            box-sizing: border-box; 
+            border-radius: 0 !important; /* BORDE RECTO TOTAL */
+            margin: 0; 
+            padding: 0;
+        }
 
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-body); 
-            color: var(--text-main);
-            margin: 0;
+            background-color: var(--bg); 
+            color: var(--text);
             display: flex;
             justify-content: center;
             padding: 20px;
         }
 
-        .container { width: 100%; max-width: 420px; }
+        .wrapper { width: 100%; max-width: 400px; border: 2px solid var(--border); padding: 20px; }
 
-        .card { 
-            background: var(--bg-card); 
-            padding: 30px; 
-            border-radius: 24px; 
-            box-shadow: var(--shadow);
-        }
+        header { border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
+        h1 { font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: -1px; }
+        .date { font-size: 10px; opacity: 0.7; margin-top: 5px; }
 
-        h1 { font-weight: 700; font-size: 22px; margin: 0 0 5px; text-align: center; }
-        .date { text-align: center; color: var(--text-secondary); font-size: 11px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
-
-        label { display: block; margin: 15px 0 8px; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+        label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin: 15px 0 5px; }
 
         input, select { 
             width: 100%; 
-            padding: 14px; 
-            background: var(--bg-body);
-            border: 1px solid var(--input-border); 
-            border-radius: 12px; 
-            color: var(--text-main);
+            padding: 12px; 
+            background: var(--surface);
+            border: 2px solid var(--border); 
+            color: var(--text);
             font-size: 16px; 
+            font-weight: 700;
             outline: none;
-            -webkit-appearance: none;
+            margin-bottom: 10px;
         }
 
-        input:focus { border-color: var(--accent-blue); ring: 2px var(--accent-blue); }
-
-        .result-container { 
-            background: var(--accent-light); 
+        .result-panel { 
+            background: var(--primary); 
+            color: #ffffff;
             padding: 20px; 
-            border-radius: 16px; 
-            margin-top: 25px; 
-            text-align: center; 
+            margin: 20px 0;
+            border: 2px solid var(--border);
         }
-        .result-label { font-size: 12px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
-        .result-val { font-size: 32px; font-weight: 700; color: var(--accent-blue); }
+        .result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; opacity: 0.9; }
+        .result-val { font-size: 32px; font-weight: 900; }
 
-        /* Sección de Tasas Actuales debajo */
-        .rates-grid { 
+        /* Rates Section */
+        .rates-section { margin-top: 30px; }
+        .rates-group { margin-bottom: 20px; }
+        .group-title { 
+            font-size: 12px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            background: var(--border); 
+            color: var(--bg);
+            padding: 4px 8px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .rate-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin-top: 30px; 
+            gap: 10px;
         }
-        .rate-item { 
-            background: var(--bg-card); 
-            padding: 15px; 
-            border-radius: 16px; 
-            box-shadow: var(--shadow);
-            text-align: center;
+        .rate-box { 
+            border: 1px solid var(--border); 
+            padding: 12px;
+            background: var(--surface);
         }
-        .rate-title { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 5px; }
-        .rate-price { font-size: 16px; font-weight: 700; }
-        .market-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; background: var(--bg-body); margin-top: 5px; display: inline-block; }
+        .rate-name { font-size: 9px; font-weight: 700; opacity: 0.7; text-transform: uppercase; }
+        .rate-price { font-size: 16px; font-weight: 900; color: var(--secondary); }
 
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>Tasa Conversion monedas Cuba</h1>
-        <div id="fecha" class="date">Sincronizando...</div>
+<div class="wrapper">
+    <header>
+        <h1>CAMBIO CUBA</h1>
+        <div id="fecha" class="date">--:--</div>
+    </header>
 
-        <label>Cantidad a convertir</label>
-        <input type="number" id="cantidad" placeholder="0.00" oninput="calcular()">
+    <label>Cantidad</label>
+    <input type="number" id="cantidad" placeholder="0.00" oninput="calcular()">
 
-        <div style="display: flex; gap: 10px;">
-            <div style="flex: 1;">
-                <label>Moneda</label>
-                <select id="moneda" onchange="calcular()">
-                    <option value="eur">Euros (€)</option>
-                    <option value="usd">Dólares ($)</option>
-                </select>
-            </div>
-            <div style="flex: 1;">
-                <label>Mercado</label>
-                <select id="mercado" onchange="calcular()">
-                    <option value="informal">Calle (Informal)</option>
-                    <option value="oficial">Banco (Oficial)</option>
-                </select>
-            </div>
+    <div style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+            <label>Moneda</label>
+            <select id="moneda" onchange="calcular()">
+                <option value="eur">EUR</option>
+                <option value="usd">USD</option>
+            </select>
         </div>
-
-        <div class="result-container">
-            <div class="result-label">Resultado en CUP</div>
-            <div id="resultado" class="result-val">0.00</div>
+        <div style="flex: 1;">
+            <label>Tasa</label>
+            <select id="mercado" onchange="calcular()">
+                <option value="oficial">OFICIAL</option>
+                <option value="informal">INFORMAL</option>
+            </select>
         </div>
     </div>
 
-    <!-- Valores Actuales debajo -->
-    <div class="rates-grid">
-        <div class="rate-item">
-            <div class="rate-title">Dólar (USD)</div>
-            <div id="val-usd-inf" class="rate-price">--</div>
-            <div class="market-tag">Calle</div>
+    <div class="result-panel">
+        <div class="result-label">Total Recibido (CUP)</div>
+        <div id="resultado" class="result-val">0.00</div>
+    </div>
+
+    <div class="rates-section">
+        <!-- BLOQUE OFICIAL PRIMERO -->
+        <div class="rates-group">
+            <div class="group-title">Oficial</div>
+            <div class="rate-grid">
+                <div class="rate-box">
+                    <div class="rate-name">USD</div>
+                    <div id="val-usd-ofic" class="rate-price">0.00</div>
+                </div>
+                <div class="rate-box">
+                    <div class="rate-name">EUR</div>
+                    <div id="val-eur-ofic" class="rate-price">0.00</div>
+                </div>
+            </div>
         </div>
-        <div class="rate-item">
-            <div class="rate-title">Euro (EUR)</div>
-            <div id="val-eur-inf" class="rate-price">--</div>
-            <div class="market-tag">Calle</div>
-        </div>
-        <div class="rate-item">
-            <div class="rate-title">Dólar (USD)</div>
-            <div id="val-usd-ofic" class="rate-price">--</div>
-            <div class="market-tag">Banco</div>
-        </div>
-        <div class="rate-item">
-            <div class="rate-title">Euro (EUR)</div>
-            <div id="val-eur-ofic" class="rate-price">--</div>
-            <div class="market-tag">Banco</div>
+
+        <!-- BLOQUE INFORMAL SEGUNDO -->
+        <div class="rates-group">
+            <div class="group-title">Informal</div>
+            <div class="rate-grid">
+                <div class="rate-box">
+                    <div class="rate-name">USD</div>
+                    <div id="val-usd-inf" class="rate-price">0.00</div>
+                </div>
+                <div class="rate-box">
+                    <div class="rate-name">EUR</div>
+                    <div id="val-eur-inf" class="rate-price">0.00</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -170,22 +178,24 @@
         try {
             const res = await fetch('cambio.json');
             tasas = await res.json();
-            localStorage.setItem('tasas_cache', JSON.stringify(tasas));
+            localStorage.setItem('tasas_cache_min', JSON.stringify(tasas));
             actualizarUI();
         } catch (e) {
-            tasas = JSON.parse(localStorage.getItem('tasas_cache'));
+            tasas = JSON.parse(localStorage.getItem('tasas_cache_min'));
             if(tasas) actualizarUI();
         }
     }
 
     function actualizarUI() {
-        document.getElementById('fecha').innerText = tasas.fecha;
+        document.getElementById('fecha').innerText = "ACTUALIZADO: " + tasas.fecha.toUpperCase();
         
-        // Llenar cuadritos de abajo
-        document.getElementById('val-usd-inf').innerText = tasas.informal.usd + " CUP";
-        document.getElementById('val-eur-inf').innerText = tasas.informal.eur + " CUP";
-        document.getElementById('val-usd-ofic').innerText = tasas.oficial.usd + " CUP";
-        document.getElementById('val-eur-ofic').innerText = tasas.oficial.eur + " CUP";
+        // Tasas Oficiales
+        document.getElementById('val-usd-ofic').innerText = tasas.oficial.usd;
+        document.getElementById('val-eur-ofic').innerText = tasas.oficial.eur;
+        
+        // Tasas Informales
+        document.getElementById('val-usd-inf').innerText = tasas.informal.usd;
+        document.getElementById('val-eur-inf').innerText = tasas.informal.eur;
         
         calcular();
     }
@@ -198,7 +208,7 @@
         if (tasas && tasas[merc]) {
             const valorTasa = parseFloat(tasas[merc][mon].replace(',', ''));
             const total = (parseFloat(cant) * valorTasa);
-            document.getElementById('resultado').innerText = total.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('resultado').innerText = total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
     }
 
