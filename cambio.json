@@ -1,6 +1,5 @@
 {
-    "fecha": "05/04/2026 09:51 PM",
-    "usd": "325",
-    "eur": "335",
-    "mlc": "270"
+    "fecha": "05/04/2026 09:58 PM",
+    "usd": "Error",
+    "error": "HTTPSConnectionPool(host='www.bcc.gob.cu', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='www.bcc.gob.cu', port=443): Failed to resolve 'www.bcc.gob.cu' ([Errno -2] Name or service not known)\"))"
 }
